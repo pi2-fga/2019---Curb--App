@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Image, Dimensions } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 var screenWidth = Dimensions.get('window').width;
 
@@ -14,6 +15,7 @@ export default class Home extends React.Component {
         <Button style={styles.button}
             title = 'Adicionar Curb'
             color = '#F1C40F'
+            onPress={() => Actions.page_data()}
         />
       </View>
     );
