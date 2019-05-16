@@ -6,7 +6,7 @@ import Rotas from './src/Routes';
 export default class App extends React.Component {
   render() {
     return (
-      <Rotas/>
+      <Rotas />
     );
   }
 }

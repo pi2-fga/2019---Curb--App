@@ -1,10 +1,12 @@
 import React from 'react';
 import Home from './components/Home';
-import { Router, Scene } from 'react-native-router-flux';
+import { Router, Scene, root } from 'react-native-router-flux';
 
 const Rotas = () => (
-    <Router>
-        <Scene key='Home' component={Home} initil title='Home' />
+    <Router sceneStyle={{ paddingTop: 25}}>
+        <Scene key='root'>
+            <Scene key='Home' component={Home} initial title='Home'/>
+        </Scene>
     </Router>
 );
 
