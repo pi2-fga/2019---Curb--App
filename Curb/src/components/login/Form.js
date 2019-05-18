@@ -8,8 +8,6 @@ import {
 } from 'react-native';
 
 import UserInput from './UserInput';
-import ButtonSubmit from './ButtonSubmit';
-import SignupSection from './SignupSection';
 
 import usernameImg from '../../../assets/img/username.png';
 import passwordImg from '../../../assets/img/password.png';
@@ -36,7 +34,7 @@ export default class Form extends Component {
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <UserInput
           source={usernameImg}
-          placeholder="Username"
+          placeholder="EMAIL"
           autoCapitalize={'none'}
           returnKeyType={'done'}
           autoCorrect={false}
@@ -44,7 +42,7 @@ export default class Form extends Component {
         <UserInput
           source={passwordImg}
           secureTextEntry={this.state.showPass}
-          placeholder="Password"
+          placeholder="SENHA"
           returnKeyType={'done'}
           autoCapitalize={'none'}
           autoCorrect={false}
