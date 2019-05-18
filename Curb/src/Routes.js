@@ -2,8 +2,7 @@ import React from 'react';
 import { Router, Scene, root } from 'react-native-router-flux';
 
 import Home from './components/Home';
-import Page_Data from './components/Page_Data';
-import {Actions} from 'react-native-router-flux';
+import Page_Data from './components/dashboard/Page_Data';
 
 const Rotas = () => (
     <Router sceneStyle={{ paddingTop: 25}}>

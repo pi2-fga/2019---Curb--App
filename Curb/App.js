@@ -1,12 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import Home from './src/components/Home';
 import Rotas from './src/Routes';
+import Main from './src/components/login/Main';
 
 export default class App extends React.Component {
   render() {
     return (
-      <Rotas />
+      <Main />
     );
   }
 }
