@@ -17,7 +17,7 @@ const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 const MARGIN = 40;
 
-export default class ButtonSubmit extends Component {
+export default class ButtonNewCurb extends Component {
   constructor() {
     super();
 
@@ -45,7 +45,7 @@ export default class ButtonSubmit extends Component {
     }, 2000);
 
     setTimeout(() => {
-      Actions.home_page();
+      Actions.new_curb();
       this.setState({isLoading: false});
       this.buttonAnimated.setValue(0);
       this.growAnimated.setValue(0);
@@ -80,7 +80,7 @@ export default class ButtonSubmit extends Component {
             {this.state.isLoading ? (
               <Image source={spinner} style={styles.image} />
             ) : (
-              <Text style={styles.text}>LOGIN</Text>
+              <Text style={styles.text}>ADICIONAR NOVO CURB</Text>
             )}
           </TouchableOpacity>
           <Animated.View
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#F035E0',
+    backgroundColor: '#F8D315',
     height: MARGIN,
     borderRadius: 20,
     zIndex: 100,
@@ -112,11 +112,11 @@ const styles = StyleSheet.create({
     width: MARGIN,
     marginTop: -MARGIN,
     borderWidth: 1,
-    borderColor: '#F035E0',
+    borderColor: '#F8D315',
     borderRadius: 100,
     alignSelf: 'center',
     zIndex: 99,
-    backgroundColor: '#F035E0',
+    backgroundColor: '#F8D315',
   },
   text: {
     color: 'white',
