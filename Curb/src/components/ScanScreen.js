@@ -71,27 +71,27 @@ export default class ScanScreen extends React.Component {
       };
     
       _maybeRenderUrl = () => {
-        if (!this.state.lastScannedUrl) {
-          return;
-        }
+            if (!this.state.lastScannedUrl) {
+                return;
+            }
     
-        return (
-          <View style={styles.bottomBar}>
-            <TouchableOpacity style={styles.url} onPress={this._handlePressUrl}>
-              <Text numberOfLines={1} style={styles.urlText}>
-                {this.state.lastScannedUrl}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.cancelButton}
-              onPress={this._handlePressCancel}>
-              <Text style={styles.cancelButtonText}>
-                Cancel
-              </Text>
-            </TouchableOpacity>
-          </View>
-        );
-      };
+            return (
+                <View style={styles.bottomBar}>
+                <TouchableOpacity style={styles.url} onPress={Actions.Dashboard()}>
+                    <Text numberOfLines={1} style={styles.urlText}>
+                        Avançar
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.cancelButton}
+                    onPress={this._handlePressCancel}>
+                    <Text style={styles.cancelButtonText}>
+                    Cancel
+                    </Text>
+                </TouchableOpacity>
+                </View>
+            );
+        };
     }
     
     const styles = StyleSheet.create({
