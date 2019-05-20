@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { StyleSheet, Text, View, Button, Image, Dimensions, StatusBar, ImageBackground } from 'react-native';
+
 import { Actions } from 'react-native-router-flux';
 
 var screenWidth = Dimensions.get('window').width;
