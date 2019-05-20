@@ -45,7 +45,7 @@ export default class ButtonNewCurb extends Component {
     }, 2000);
 
     setTimeout(() => {
-      Actions.new_curb();
+      Actions.scanScreen();
       this.setState({isLoading: false});
       this.buttonAnimated.setValue(0);
       this.growAnimated.setValue(0);

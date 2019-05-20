@@ -9,8 +9,6 @@ import { StyleSheet,
 } from 'react-native';
 import { Ionicons} from '@expo/vector-icons';
 
-import Sidebar from '../custom/Sidebar';
-
 var screenWidth = Dimensions.get('window').width;
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
@@ -35,7 +33,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-		backgroundColor: '#FFFFFF',
-		paddingRight:100
+		backgroundColor: '#FFFFFF'
     }
 });
