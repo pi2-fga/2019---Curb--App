@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Router, Scene, Actions, ActionConst } from 'react-native-router-flux';
 
-import HomePage from '../dashboard/HomePage';
+import Dashboard from '../dashboard/Dashboard';
 import LoginScreen from '../login/LoginScreen';
 import NewCurb from '../curb/NewCurbHomePage';
 import ScanScreen from '../curb/ScanScreen';
@@ -22,8 +22,8 @@ export default class Main extends Component {
 	          animation='fade'
 	          hideNavBar={true}
 	        />
-					<Scene key="home_page"
-	          component={HomePage}
+            <Scene key="dashboard"
+	          component={Dashboard}
 	          animation='fade'
 	          hideNavBar={true}
 	        />

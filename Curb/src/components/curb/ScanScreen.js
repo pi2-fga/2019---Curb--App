@@ -58,7 +58,7 @@ export default class ScanScreen extends React.Component {
           [
             {
               text: 'Yes',
-              onPress: () => {Actions.home_page()},
+              onPress: () => {Actions.dashboard()},
             },
             { text: 'No', onPress: () => {} },
           ],
@@ -77,7 +77,7 @@ export default class ScanScreen extends React.Component {
     
             return (
                 <View style={styles.bottomBar}>
-                <TouchableOpacity style={styles.url} onPress={Actions.home_page()}>
+                <TouchableOpacity style={styles.url} onPress={Actions.dashboard()}>
                     <Text numberOfLines={1} style={styles.urlText}>
                         Avançar
                     </Text>
