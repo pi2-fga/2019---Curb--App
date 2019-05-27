@@ -12,17 +12,17 @@ export default class Main extends Component {
 	    <Router>
 	      <Scene key="root">
 	        <Scene key="loginScreen"
-	          component={LoginScreen}
+	          component={Dashboard}
 	        	animation='fade'
 	          hideNavBar={true}
 	          initial={true}
 	        />
-					<Scene key="scanScreen"
+			<Scene key="scanScreen"
 	          component={ScanScreen}
 	          animation='fade'
 	          hideNavBar={true}
 	        />
-            <Scene key="dashboard"
+			<Scene key="dashboard"
 	          component={Dashboard}
 	          animation='fade'
 	          hideNavBar={true}

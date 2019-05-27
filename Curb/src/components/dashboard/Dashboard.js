@@ -35,8 +35,9 @@ const DashBoardTabNavigator = createBottomTabNavigator({
                     Bateria
                 </Text>
             ),
-            tabBarIcon: ({ center, tintColor }) =>
-            <IconFont name="battery-4" size={30} color="black"></IconFont>
+            tabBarIcon: ({ center, tintColor }) => (
+                <IconFont name="battery-4" size={30} color="black"></IconFont>
+            ),
         }
     },
     Tinta: {
@@ -85,7 +86,7 @@ const DashBoardTabNavigator = createBottomTabNavigator({
 });
 
 const DashBoardStackNavigator = createStackNavigator({
-    DashBoardTabNavigator: DashBoardTabNavigator
+    DashBoardTabNavigator: DashBoardTabNavigator,
 });
 
 const AppDrawerNavigator = createDrawerNavigator({
