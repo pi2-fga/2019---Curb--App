@@ -13,7 +13,7 @@ export default class Battery extends React.Component {
             <View style={styles.container}>
                 <View style={styles.screenHalfFirst}>
                     <Text style={styles.firstText}>
-                        42%
+                       Nivel Bateria: 42%
                     </Text>
                 </View>
                 <View style={styles.screenHalfSecond}>
