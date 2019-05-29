@@ -12,6 +12,7 @@ import Path from './Path';
 import UserProfile from './UserProfile';
 
 export default class DashboardHomePage extends React.Component {
+    
 	constructor() {
         super();
     }
