@@ -1,11 +1,11 @@
 {
     "chart": {
-      "caption": "Nordstorm's Customer Satisfaction Score for 2017",
+      "caption": "Nível de Bateria do Curb Nº",
       "lowerLimit": "0",
       "upperLimit": "100",
       "showValue": "1",
       "numberSuffix": "%",
-      "theme": "fusion",
+      "theme": "ocean",
       "showToolTip": "0"
     },
     "colorRange": {

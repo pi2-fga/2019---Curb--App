@@ -3,7 +3,6 @@ import {
     createBottomTabNavigator,
     createAppContainer
 } from 'react-navigation';
-import Icon from 'react-native-vector-icons/Ionicons';
 import IconFont from 'react-native-vector-icons/FontAwesome';
 
 import Battery from './Battery';
@@ -29,7 +28,7 @@ const DashBoardTabNavigator = createBottomTabNavigator({
         navigationOptions: {
             tabBarLabel:'BATERIA',
             tabBarIcon: ({tintColor}) => (
-                <Icon name='ios-home' color={tintColor} size={24}></Icon>
+                <IconFont name='battery-4' color={tintColor} size={24}></IconFont>
             )
         }
     },
