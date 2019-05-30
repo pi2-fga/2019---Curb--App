@@ -1,28 +1,19 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Dimensions from 'Dimensions';
-import {
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  Animated,
-  Easing,
-  Image,
-  View,
-} from 'react-native';
-import {Actions} from 'react-native-router-flux';
+import { StyleSheet, TouchableOpacity, Text, Animated, Easing, Image, View } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 import spinner from '../../../assets/img/loading.gif';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
-const DEVICE_HEIGHT = Dimensions.get('window').height;
 const MARGIN = 40;
 
 export default class ButtonNewCurb extends Component {
   constructor() {
-    super();
+  	super();
 
     this.state = {
-      isLoading: false,
+    	isLoading: false,
     };
 
     this.buttonAnimated = new Animated.Value(0);
@@ -31,37 +22,37 @@ export default class ButtonNewCurb extends Component {
   }
 
   _onPress() {
-    if (this.state.isLoading) return;
+	if (this.state.isLoading) return;
 
-    this.setState({isLoading: true});
-    Animated.timing(this.buttonAnimated, {
-      toValue: 1,
-      duration: 200,
-      easing: Easing.linear,
+	this.setState({isLoading: true});
+	Animated.timing(this.buttonAnimated, {
+		toValue: 1,
+		duration: 200,
+		easing: Easing.linear,
     }).start();
 
     setTimeout(() => {
-      this._onGrow();
+      	this._onGrow();
     }, 2000);
 
     setTimeout(() => {
-      Actions.scanScreen();
-      this.setState({isLoading: false});
-      this.buttonAnimated.setValue(0);
-      this.growAnimated.setValue(0);
+		Actions.scanScreen();
+		this.setState({isLoading: false});
+		this.buttonAnimated.setValue(0);
+		this.growAnimated.setValue(0);
     }, 2300);
   }
 
   _onGrow() {
-    Animated.timing(this.growAnimated, {
-      toValue: 1,
-      duration: 200,
-      easing: Easing.linear,
+	Animated.timing(this.growAnimated, {
+		toValue: 1,
+		duration: 200,
+		easing: Easing.linear,
     }).start();
   }
 
   render() {
-    const changeWidth = this.buttonAnimated.interpolate({
+	const changeWidth = this.buttonAnimated.interpolate({
       inputRange: [0, 1],
       outputRange: [DEVICE_WIDTH - MARGIN, MARGIN],
     });

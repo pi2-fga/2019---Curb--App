@@ -1,11 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Dimensions from 'Dimensions';
-import {
-  StyleSheet,
-  KeyboardAvoidingView,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import { StyleSheet, KeyboardAvoidingView, TouchableOpacity, Image } from 'react-native';
 
 import UserInput from './UserInput';
 

@@ -1,18 +1,5 @@
 import React from 'react';
-import { StyleSheet, 
-  Text, 
-  View, 
-  Dimensions,
-  Button
-} from 'react-native';
-import {
-    createSwitchNavigator,
-    createAppContainer,
-    createDrawerNavigator,
-    createBottomTabNavigator,
-    createStackNavigator
-} from 'react-navigation';
-import Icon from '@expo/vector-icons/Ionicons';
+import { Text, View } from 'react-native';
 
 export default class Path extends React.Component {
 	constructor() {

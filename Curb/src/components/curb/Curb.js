@@ -1,19 +1,10 @@
 import React from 'react';
-import { StyleSheet, 
-  Text, 
-  View, 
-  Image, 
-  Dimensions,
-  Animated, 
-  TouchableOpacity 
-} from 'react-native';
+import { StyleSheet,Text,View,Image,Dimensions,Animated,TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+
 import spinner from '../../../assets/img/loading.gif';
 
-var screenWidth = Dimensions.get('window').width;
-
 const DEVICE_WIDTH = Dimensions.get('window').width;
-const DEVICE_HEIGHT = Dimensions.get('window').height;
 const MARGIN = 40;
 
 export default class Curb extends React.Component {

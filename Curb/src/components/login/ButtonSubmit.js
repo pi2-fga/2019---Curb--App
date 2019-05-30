@@ -1,20 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Dimensions from 'Dimensions';
-import {
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  Animated,
-  Easing,
-  Image,
-  View,
-} from 'react-native';
-import {Actions} from 'react-native-router-flux';
+import { StyleSheet, TouchableOpacity, Text, Animated, Easing, Image, View } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 import spinner from '../../../assets/img/loading.gif';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
-const DEVICE_HEIGHT = Dimensions.get('window').height;
 const MARGIN = 40;
 
 export default class ButtonSubmit extends Component {

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Logo from '../custom/Logo';
 import Form from './Form';
 import Wallpaper from '../custom/Wallpaper';

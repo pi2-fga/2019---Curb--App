@@ -1,22 +1,19 @@
 import React from 'react';
-import { StyleSheet, 
-  Text, 
-  View,
-  Platform
-} from 'react-native';
+import { StyleSheet, View, Platform } from 'react-native';
 
 import FusionCharts from "react-native-fusioncharts";
 
 export default class Battery extends React.Component {
 	constructor(props) {
-      super(props);
+	  super(props);
+	  
         this.apiCaller = null;
         this.state = {
         	type: 'angulargauge',
 			width: '100%',
 			height: '100%',
 			dataFormat: 'json',
-			dataSource: require('../../jsons/data.json')
+			dataSource: require('../../jsons/battery.json')
         };
         this.libraryPath = Platform.select({
           	android: require('../../../assets/fusioncharts/fusioncharts.html')
@@ -27,16 +24,16 @@ export default class Battery extends React.Component {
     	return (
         	<View style={styles.container}>
 				<View style={styles.chartContainer}>
-				<FusionCharts
-					type={this.state.type}
-					width={this.state.width}
-					height={this.state.height}
-					dataFormat={this.state.dataFormat}
-					dataSource={this.state.dataSource}
-					libraryPath={this.libraryPath}
-				/>
+					<FusionCharts
+						type={this.state.type}
+						width={this.state.width}
+						height={this.state.height}
+						dataFormat={this.state.dataFormat}
+						dataSource={this.state.dataSource}
+						libraryPath={this.libraryPath}
+					/>
 				</View>
-          	</View>
+			</View>
         );
 	}
 }

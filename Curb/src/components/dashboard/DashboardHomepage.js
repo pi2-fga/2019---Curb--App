@@ -1,14 +1,12 @@
 import React from 'react';
-import {
-    createBottomTabNavigator,
-    createAppContainer
-} from 'react-navigation';
-import IconFont from 'react-native-vector-icons/FontAwesome';
+import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Battery from './Battery';
 import Tinta from './Tinta';
 import Path from './Path';
 import UserProfile from './UserProfile';
+import Power from './Power';
 
 export default class DashboardHomePage extends React.Component {
     
@@ -23,39 +21,49 @@ export default class DashboardHomePage extends React.Component {
 }
 
 const DashBoardTabNavigator = createBottomTabNavigator({
+    
+    Power: {
+        screen: Power,
+        navigationOptions: {
+            tabBarLabel: 'Power',
+            tabBarIcon: ({tintColor}) => (
+                <Icon name='power-off' color={tintColor} size={24}></Icon>
+            ),
+        }
+    },
     Battery: {
         screen: Battery,
         navigationOptions: {
-            tabBarLabel:'BATERIA',
+            tabBarLabel:'Bateria',
             tabBarIcon: ({tintColor}) => (
-                <IconFont name='battery-4' color={tintColor} size={24}></IconFont>
+                <Icon name='battery-4' color={tintColor} size={24}></Icon>
             )
         }
     },
     Tinta: {
         screen: Tinta,
         navigationOptions: {
-            tabBarLabel:'TINTA',
+            tabBarLabel:'Tinta',
             tabBarIcon: ({tintColor}) => (
-                <IconFont name='tint' color={tintColor} size={24}></IconFont>
+                <Icon name='tint' color={tintColor} size={24}></Icon>
             )
         }
     },
     Path: {
         screen: Path,
         navigationOptions: {
-            tabBarLabel:'TRAJETO',
+            tabBarLabel:'Trajeto',
             tabBarIcon: ({tintColor}) => (
-                <IconFont name='map-marker' color={tintColor} size={24}></IconFont>
-            )
+                <Icon name='map-marker' color={tintColor} size={24}></Icon>
+            ),
         }
     },
     UserProfile: {
         screen: UserProfile,
         navigationOptions: {
-            tabBarLabel:'USUÁRIO',
+            tabBarLabel:'Usuário',
             tabBarIcon: ({tintColor}) => (
-                <IconFont name='user' color={tintColor} size={24}></IconFont>
+                <Icon name='user' color={tintColor} size={24}></Icon>
             )
         }
     }, 
@@ -64,7 +72,7 @@ const DashBoardTabNavigator = createBottomTabNavigator({
         tabBarVisible: true
     },
     tabBarOptions: {
-        activeTintColor: 'red',
+        activeTintColor: 'cornflowerblue',
         inactiveTintColor: 'grey'
     }
 });
