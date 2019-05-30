@@ -10,10 +10,10 @@ export default class Battery extends React.Component {
         this.apiCaller = null;
         this.state = {
         	type: 'angulargauge',
-			width: '100%',
-			height: '100%',
-			dataFormat: 'json',
-			dataSource: require('../../jsons/battery.json')
+					width: '100%',
+					height: '100%',
+					dataFormat: 'json',
+					dataSource: require('../../jsons/battery.json')
         };
         this.libraryPath = Platform.select({
           	android: require('../../../assets/fusioncharts/fusioncharts.html')
@@ -23,17 +23,17 @@ export default class Battery extends React.Component {
     render() {
     	return (
         	<View style={styles.container}>
-				<View style={styles.chartContainer}>
-					<FusionCharts
-						type={this.state.type}
-						width={this.state.width}
-						height={this.state.height}
-						dataFormat={this.state.dataFormat}
-						dataSource={this.state.dataSource}
-						libraryPath={this.libraryPath}
-					/>
-				</View>
-			</View>
+						<View style={styles.chartContainer}>
+							<FusionCharts
+								type={this.state.type}
+								width={this.state.width}
+								height={this.state.height}
+								dataFormat={this.state.dataFormat}
+								dataSource={this.state.dataSource}
+								libraryPath={this.libraryPath}
+							/>
+						</View>
+					</View>
         );
 	}
 }
