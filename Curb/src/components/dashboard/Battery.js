@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, View, Platform } from 'react-native';
 
 import FusionCharts from "react-native-fusioncharts";
 
-export default class Battery extends React.Component {
+export default class Battery extends Component {
 	constructor(props) {
 	  super(props);
 	  

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default class Power extends React.Component {
+export default class Power extends Component {
 
     state = {
         toggle:true

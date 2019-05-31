@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {StyleSheet, ImageBackground} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, ImageBackground } from 'react-native';
 
 import bgSrc from '../../../assets/img/wallpaper.png';
 

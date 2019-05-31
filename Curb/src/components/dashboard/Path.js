@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 
-export default class Path extends React.Component {
+export default class Path extends Component {
 	constructor() {
         super();
     }

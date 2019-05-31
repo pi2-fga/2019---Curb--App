@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Alert, Dimensions, LayoutAnimation, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
 import { Actions } from 'react-native-router-flux';
 
-export default class ScanScreen extends React.Component {
+export default class ScanScreen extends Component {
     state = {
         hasCameraPermission: null,
         lastScannedUrl: null,

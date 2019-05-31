@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View, Platform } from 'react-native';
 
 import FusionCharts from "react-native-fusioncharts";
 
-export default class Tinta extends React.Component {
+export default class Tinta extends Component {
 	constructor(props) {
       super(props);
         this.apiCaller = null;

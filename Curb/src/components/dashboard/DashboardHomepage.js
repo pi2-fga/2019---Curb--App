@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -8,7 +8,7 @@ import Path from './Path';
 import UserProfile from './UserProfile';
 import Power from './Power';
 
-export default class DashboardHomePage extends React.Component {
+export default class DashboardHomePage extends Component {
     
 	constructor() {
         super();

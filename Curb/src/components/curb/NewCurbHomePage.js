@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import Wallpaper from '../custom/Wallpaper';
 import Logo from '../custom/Logo';
 import ButtonNewCurb from '../curb/ButtonNewCurb';
 
-export default class NewCurbHomePage extends React.Component {
+export default class NewCurbHomePage extends Component {
   render() {
     return (
       <Wallpaper>
