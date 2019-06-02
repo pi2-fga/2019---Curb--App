@@ -23,7 +23,7 @@ const backgroundColor = '#007256';
 
 const { height, width } = Dimensions.get('window');
 
-export default class Path extends Component {
+export default class MapScreen extends Component {
 
     state = {
 
@@ -32,7 +32,131 @@ export default class Path extends Component {
         originText: '',
         destinationText: '',
     
-     };
+      };
+    
+      async requestLocationPermission() {
+        try {
+    
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                {
+                    'title': 'App Location Permission',
+                    'message': 'Maps App needs access to your map ' +
+                        'so you can be navigated.'
+                }
+            );
+    
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                console.log("You can use the location");
+                return true;
+    
+            } else {
+                console.log("location permission denied");
+                return false;
+            }
+    
+        } catch (err) {
+            console.warn(err)
+        }
+    
+      }
+    
+      getLocation = () => {
+        navigator.geolocation.getCurrentPosition((position) => {
+            let newOrigin = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+            };
+    
+            console.log('new origin');
+            console.log(newOrigin);
+    
+            this.setState({
+                origin: newOrigin
+            });
+
+        }, (err) => {
+            console.log('error');
+            console.log(err)
+    
+        }, {enableHighAccuracy: true, timeout: 2000, maximumAge: 1000})
+    
+      };
+
+      async componentDidMount() {
+        let isGranted = await this.requestLocationPermission();
+
+        if (isGranted) {
+            this.getLocation();
+        }
+
+        this.getLocation();
+
+      }
+
+      handleButton = () => {
+
+        if(this.state.originText != '') {
+
+            Geocoder.init(GOOGLE_MAPS_APIKEY); // use a valid API key
+
+            Geocoder.from(this.state.originText)
+                .then(json => {
+                    var location = json.results[0].geometry.location;
+                    console.log(location);
+                    this.setState({ origin: { latitude: location.lat, longitude: location.lng } });
+
+            })
+            .catch(error => console.warn(error));
+
+        }
+
+        else {
+
+            alert("Digite a origem ! ")
+
+        }
+
+        if(this.state.destinationText != '') {
+
+            Geocoder.init(GOOGLE_MAPS_APIKEY); // use a valid API key
+
+            Geocoder.from(this.state.destinationText)
+            .then(json => {
+                var location = json.results[0].geometry.location;
+                console.log(location);
+                this.setState({ destination: { latitude: location.lat, longitude: location.lng } });
+
+            })
+            .catch(error => console.warn(error));
+        }
+
+        else {
+
+            alert("Digite o destino ! ")
+
+        }
+
+      }
+    
+      handleGetGoogleMapDirections = () => {
+    
+        const data = {
+    
+            source: this.state.origin,
+            destination: this.state.destination,
+            params: [
+                {
+                  key: "travelmode",
+                  value: "driving"
+                }
+            ]
+            
+        };
+    
+        getDirections(data)
+    
+      };
 
     render() {
 
@@ -62,7 +186,7 @@ export default class Path extends Component {
               coordinate={this.state.destination}
             >
               <MapView.Callout onPress={this.handleGetGoogleMapDirections}>
-                <Text>Press to Get Direction</Text>
+                <Text>Pressione para abrir no google maps</Text>
               </MapView.Callout>
             </MapView.Marker>
 
@@ -70,7 +194,7 @@ export default class Path extends Component {
               coordinate={this.state.origin}
             >
             <MapView.Callout>
-                <Text>This is where you are</Text>
+                <Text>Você está aqui</Text>
             </MapView.Callout>
             </MapView.Marker>
 
@@ -82,14 +206,11 @@ export default class Path extends Component {
     
             </MapView>
 
-            
-
           </View>
 
         );
 
     }
-
 }
 
 const styles = StyleSheet.create({
