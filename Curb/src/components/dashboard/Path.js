@@ -1,14 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View,
-  TouchableHighlight,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  Dimensions,
-  Image,
-  StyleSheet
-} from 'react-native';
+import { View, Text, Dimensions, StyleSheet } from 'react-native';
 
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
@@ -18,12 +9,13 @@ import { PermissionsAndroid } from 'react-native';
 import Geocoder from 'react-native-geocoding';
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyA3ujp1p1dsVh0E7RppUTJe1UcUkR2XJcg';
-
-const backgroundColor = '#007256';
-
-const { height, width } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 export default class MapScreen extends Component {
+
+    componentDidMount() {
+        this.handleButton();
+    }
 
     state = {
 
@@ -41,8 +33,8 @@ export default class MapScreen extends Component {
                 PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
                 {
                     'title': 'App Location Permission',
-                    'message': 'Maps App needs access to your map ' +
-                        'so you can be navigated.'
+                    'message': 'O aplicativo CURB necessita que você ative ' +
+                        'o GPS.'
                 }
             );
     
@@ -98,7 +90,7 @@ export default class MapScreen extends Component {
 
         if(this.state.originText != '') {
 
-            Geocoder.init(GOOGLE_MAPS_APIKEY); // use a valid API key
+            Geocoder.init(GOOGLE_MAPS_APIKEY); 
 
             Geocoder.from(this.state.originText)
                 .then(json => {
@@ -119,7 +111,7 @@ export default class MapScreen extends Component {
 
         if(this.state.destinationText != '') {
 
-            Geocoder.init(GOOGLE_MAPS_APIKEY); // use a valid API key
+            Geocoder.init(GOOGLE_MAPS_APIKEY); 
 
             Geocoder.from(this.state.destinationText)
             .then(json => {
@@ -136,7 +128,6 @@ export default class MapScreen extends Component {
             alert("Digite o destino ! ")
 
         }
-
       }
     
       handleGetGoogleMapDirections = () => {
@@ -186,7 +177,7 @@ export default class MapScreen extends Component {
               coordinate={this.state.destination}
             >
               <MapView.Callout onPress={this.handleGetGoogleMapDirections}>
-                <Text>Pressione para abrir no google maps</Text>
+                <Text>O CURB está aqui</Text>
               </MapView.Callout>
             </MapView.Marker>
 
@@ -211,6 +202,7 @@ export default class MapScreen extends Component {
         );
 
     }
+
 }
 
 const styles = StyleSheet.create({
@@ -271,5 +263,4 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
   
       },
-
 });

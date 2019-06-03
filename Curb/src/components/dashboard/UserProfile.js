@@ -1,26 +1,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 
-export default class Profile extends Component {
-
-    state = {
-        toggle:true
-    }
+export default class UserProfile extends Component {
 
     constructor(props) {
         super(props)
-        this._onStateChange = this._onStateChange.bind(this)
-    }
-
-    _onStateChange(newState){
-        const value = newState?'ATIVO':'INATIVO'
-        this.setState({toogleText:value})
     }
 
     render() {
-        const {toggle} = this.state;
-        const textValue = toggle?'OFF':'ON';
-        const textColor = toggle?'red':'green';
         return (
             <View style={styles.container}>
                 <View style={styles.header}></View>
@@ -28,11 +15,9 @@ export default class Profile extends Component {
                 <View style={styles.body}>
                     <View style={styles.bodyContent}>
                         <Text style={styles.name}>MrVictor</Text>
-                        <Text style={{color:textColor, textAlign:'center',
-                            fontWeight: 'bold',fontSize:16,marginTop:10,}}>
-                            STATUS: {textValue}
-                        </Text>
-                        <Text style={styles.description}>Supervisor da Máquina CURB</Text>
+                        <Text style={styles.description}>Tinta gasta: </Text>
+                        <Text style={styles.description}>Bateria gasta: </Text>
+                        <Text style={styles.description}>Kilômetros percorridos:</Text>
                     </View>
                 </View>
             </View>

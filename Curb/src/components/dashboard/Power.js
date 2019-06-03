@@ -11,6 +11,7 @@ export default class Power extends Component {
     constructor(props) {
         super(props)
         this._onStateChange = this._onStateChange.bind(this)
+        global.status = '';
     }
 
     _onStateChange(newState){
@@ -20,17 +21,20 @@ export default class Power extends Component {
 
     _onCurb() {
         const newState = !this.state.toggle;
+        global.status = 'ON';
         this.setState({toggle:newState})
         this.props.onStateChange && this.props.onStateChange(newState)
     }
 
     _offCurb() {
         const newState = !this.state.toggle;
+        global.status = 'OFF';
         this.setState({toggle:newState})
         this.props.onStateChange && this.props.onStateChange(newState) 
     }
 
     _onPress(textValue) {
+        
         if(textValue == 'OFF') {
             Alert.alert(
                 'Ligar/Desligar Curb',
