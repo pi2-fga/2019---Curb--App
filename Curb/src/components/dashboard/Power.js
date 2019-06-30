@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import axios from 'react-native-axios';
+
+let status_curb = 0; 
 
 export default class Power extends Component {
 
@@ -24,6 +27,14 @@ export default class Power extends Component {
         global.status = 'ON';
         this.setState({toggle:newState})
         this.props.onStateChange && this.props.onStateChange(newState)
+        status_curb = 1;
+        axios
+            .post(
+                'https://www.jsonstore.io/6ab2d2053ab011dea0384adc74c574ac48fd77f06bcd69b8f7e321fc902fcca8', 
+                { status_carrinho: '' + status_curb})
+            .then(function(response){
+                console.log('Curb ligado com sucesso!')
+        });  
     }
 
     _offCurb() {
@@ -31,6 +42,14 @@ export default class Power extends Component {
         global.status = 'OFF';
         this.setState({toggle:newState})
         this.props.onStateChange && this.props.onStateChange(newState) 
+        status_curb = 0;
+        axios
+            .post(
+                'https://www.jsonstore.io/6ab2d2053ab011dea0384adc74c574ac48fd77f06bcd69b8f7e321fc902fcca8', 
+                { status_carrinho: '' + status_curb})
+            .then(function(response){
+                console.log('Curb desligado com sucesso!')
+        });
     }
 
     _onPress(textValue) {

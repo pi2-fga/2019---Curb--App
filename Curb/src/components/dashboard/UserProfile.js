@@ -11,13 +11,12 @@ export default class UserProfile extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.header}></View>
-                <Image style={styles.avatar} source={{uri: 'https://renovamidia.com.br/wp-content/uploads/2018/11/a-atual-bandeira-brasil-surgiu-logo-apos-proclamacao-republica-foi-adotada-no-dia-19-novembro-1889-5beafb10035e3.jpg'}}/>
+            <Image style={styles.avatar} source={require('../../../assets/img/trabalhador.png')}/>
                 <View style={styles.body}>
                     <View style={styles.bodyContent}>
                         <Text style={styles.name}>MrVictor</Text>
                         <Text style={styles.description}>Tinta gasta: </Text>
                         <Text style={styles.description}>Bateria gasta: </Text>
-                        <Text style={styles.description}>Kilômetros percorridos:</Text>
                     </View>
                 </View>
             </View>
