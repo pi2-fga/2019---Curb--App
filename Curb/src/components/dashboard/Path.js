@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions, StyleSheet } from 'react-native';
-
+import axios from 'react-native-axios'
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import getDirections from 'react-native-google-maps-directions'
@@ -14,18 +14,46 @@ const { width } = Dimensions.get('window');
 export default class MapScreen extends Component {
 
     componentDidMount() {
-        this.handleButton();
+      this.fetchDataFromApi();
+      this.handleButton();
     }
 
     state = {
-
+        monitoring: [],
         origin: { latitude: -15.98930198, longitude: -48.0446291 },
         destination: { latitude: -15.99231874, longitude: -48.04943562 },
         originText: '',
         destinationText: '',
-    
+        inicial: {},
+        final: {}
       };
     
+      findLastMonitoring
+
+      fetchDataFromApi = ()  => {
+        const url = "http://gustavo2795.pythonanywhere.com/monitoramentos/";
+    
+        axios.get(url)
+          .then(function(response){
+            //console.log(response.data); // ex.: { user: 'Your User'}
+            //console.log(response.status); // ex.: 200
+            this.state = {
+              monitoring: response.data,
+            }
+            
+            const index = this.state.monitoring.length-1
+
+            this.state = {
+              inicial: {latitude: this.state.monitoring[index].latitudeInicial, 
+                        longitude: this.state.monitoring[index].logitudeInicial},
+              final: {latitude: this.state.monitoring[index].latitudeFinal, 
+                      longitude: this.state.monitoring[index].logitudeFinal}
+            }
+
+          }); 
+        
+      };
+
       async requestLocationPermission() {
         try {
     
@@ -75,7 +103,7 @@ export default class MapScreen extends Component {
     
       };
 
-      async componentDidMount() {
+      /*async componentDidMount() {
         let isGranted = await this.requestLocationPermission();
 
         if (isGranted) {
@@ -84,7 +112,7 @@ export default class MapScreen extends Component {
 
         this.getLocation();
 
-      }
+      }*/
 
       handleButton = () => {
 
