@@ -1,34 +1,107 @@
 import React, { Component } from 'react';
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Dimensions, StyleSheet, Platform } from 'react-native';
 import axios from 'react-native-axios'
-import MapView from 'react-native-maps';
+import MapView, {
+  Marker,
+  AnimatedRegion,
+  Polyline,
+  PROVIDER_GOOGLE
+} from "react-native-maps";
 import MapViewDirections from 'react-native-maps-directions';
 import getDirections from 'react-native-google-maps-directions'
 import { PermissionsAndroid } from 'react-native';
-
+import haversine from "haversine";
 import Geocoder from 'react-native-geocoding';
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyA3ujp1p1dsVh0E7RppUTJe1UcUkR2XJcg';
 const { width } = Dimensions.get('window');
 
+const LATITUDE_DELTA = 0.009;
+const LONGITUDE_DELTA = 0.009;
+const LATITUDE = -15.988310;
+const LONGITUDE = -48.044807;
+
 export default class MapScreen extends Component {
 
-    componentDidMount() {
-      this.fetchDataFromApi();
-      this.handleButton();
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      monitoring: [],
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      routeCoordinates: [],
+      distanceTravelled: 0,
+      prevLatLng: {},
+      coordinate: new AnimatedRegion({
+       latitude: LATITUDE,
+       longitude: LONGITUDE
+      }),
+      inicial: {},
+      final: {}
+    };
+  }
 
-    state = {
-        monitoring: [],
-        origin: { latitude: -15.98930198, longitude: -48.0446291 },
-        destination: { latitude: -15.99231874, longitude: -48.04943562 },
-        originText: '',
-        destinationText: '',
-        inicial: {},
-        final: {}
-      };
-    
-      findLastMonitoring
+  componentDidMount() {
+    const { coordinate } = this.state;
+
+    this.watchID = navigator.geolocation.watchPosition(
+      position => {
+        const { routeCoordinates, distanceTravelled } = this.state;
+        const { latitude, longitude } = position.coords;
+
+        const newCoordinate = {
+          latitude,
+          longitude
+        };
+        console.log({ newCoordinate });
+
+ 
+          if (this.marker) {
+            this.marker._component.animateMarkerToCoordinate(
+              newCoordinate,
+              500
+            );
+          }
+     
+        coordinate.timing(newCoordinate).start();
+
+        this.setState({
+          latitude,
+          longitude,
+          routeCoordinates: routeCoordinates.concat([newCoordinate]),
+          distanceTravelled:
+            distanceTravelled + this.calcDistance(newCoordinate),
+          prevLatLng: newCoordinate
+        });
+      },
+      error => console.log(error),
+      {
+        enableHighAccuracy: true,
+        timeout: 20000,
+        maximumAge: 1000,
+        distanceFilter: 10
+      }
+    );
+
+    this.fetchDataFromApi();
+  
+  };
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchID);
+  };
+
+  getMapRegion = () => ({
+    latitude: this.state.latitude,
+    longitude: this.state.longitude,
+    latitudeDelta: LATITUDE_DELTA,
+    longitudeDelta: LONGITUDE_DELTA
+  });
+
+  calcDistance = newLatLng => {
+    const { prevLatLng } = this.state;
+    return haversine(prevLatLng, newLatLng) || 0;
+  };
 
       fetchDataFromApi = ()  => {
         const url = "http://gustavo2795.pythonanywhere.com/monitoramentos/";
@@ -40,15 +113,15 @@ export default class MapScreen extends Component {
             this.state = {
               monitoring: response.data,
             }
-            
+
             const index = this.state.monitoring.length-1
 
-            this.state = {
+            /*this.state = {
               inicial: {latitude: this.state.monitoring[index].latitudeInicial, 
                         longitude: this.state.monitoring[index].logitudeInicial},
               final: {latitude: this.state.monitoring[index].latitudeFinal, 
                       longitude: this.state.monitoring[index].logitudeFinal}
-            }
+            }*/
 
           }); 
         
@@ -79,9 +152,9 @@ export default class MapScreen extends Component {
             console.warn(err)
         }
     
-      }
+      };
     
-      getLocation = () => {
+      getLocation() {
         navigator.geolocation.getCurrentPosition((position) => {
             let newOrigin = {
                 latitude: position.coords.latitude,
@@ -114,49 +187,9 @@ export default class MapScreen extends Component {
 
       }*/
 
-      handleButton = () => {
-
-        if(this.state.originText != '') {
-
-            Geocoder.init(GOOGLE_MAPS_APIKEY); 
-
-            Geocoder.from(this.state.originText)
-                .then(json => {
-                    var location = json.results[0].geometry.location;
-                    console.log(location);
-                    this.setState({ origin: { latitude: location.lat, longitude: location.lng } });
-
-            })
-            .catch(error => console.warn(error));
-
-        }
-
-        else {
-
-            alert("Digite a origem ! ")
-
-        }
-
-        if(this.state.destinationText != '') {
-
-            Geocoder.init(GOOGLE_MAPS_APIKEY); 
-
-            Geocoder.from(this.state.destinationText)
-            .then(json => {
-                var location = json.results[0].geometry.location;
-                console.log(location);
-                this.setState({ destination: { latitude: location.lat, longitude: location.lng } });
-
-            })
-            .catch(error => console.warn(error));
-        }
-
-        else {
-
-            alert("Digite o destino ! ")
-
-        }
-      }
+    handleButton = () => {
+        
+    }
     
       handleGetGoogleMapDirections = () => {
     
@@ -181,47 +214,24 @@ export default class MapScreen extends Component {
 
         return(
 
-            <View style={styles.container}>
+          <View style={styles.container}>
 
             <MapView
-    
               ref={map => this.mapView = map}
               style={styles.map}
     
-              region={{
-                latitude: (this.state.origin.latitude + this.state.destination.latitude) / 2,
-                longitude: (this.state.origin.longitude + this.state.destination.longitude) / 2,
-                latitudeDelta: Math.abs(this.state.origin.latitude - this.state.destination.latitude) + Math.abs(this.state.origin.latitude - this.state.destination.latitude) * .1,
-                longitudeDelta: Math.abs(this.state.origin.longitude - this.state.destination.longitude) + Math.abs(this.state.origin.longitude - this.state.destination.longitude) * .1,
-              }}
-    
+              region={
+                this.getMapRegion()
+              }
+              showUserLocation
+              followUserLocation
               loadingEnabled={true}
               toolbarEnabled={true}
               zoomControlEnabled={true}
               
             >
-    
-            <MapView.Marker
-              coordinate={this.state.destination}
-            >
-              <MapView.Callout onPress={this.handleGetGoogleMapDirections}>
-                <Text>O CURB está aqui</Text>
-              </MapView.Callout>
-            </MapView.Marker>
-
-            <MapView.Marker
-              coordinate={this.state.origin}
-            >
-            <MapView.Callout>
-                <Text>Você está aqui</Text>
-            </MapView.Callout>
-            </MapView.Marker>
-
-            <MapViewDirections
-              origin={this.state.origin}
-              destination={this.state.destination}
-              apikey={GOOGLE_MAPS_APIKEY}
-            />
+            
+            <Polyline coordinates={this.state.routeCoordinates} strokeWidth={5} />
     
             </MapView>
 
