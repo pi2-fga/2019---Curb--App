@@ -13,292 +13,258 @@ import { PermissionsAndroid } from 'react-native';
 import haversine from "haversine";
 import Geocoder from 'react-native-geocoding';
 
-const GOOGLE_MAPS_APIKEY = 'AIzaSyA3ujp1p1dsVh0E7RppUTJe1UcUkR2XJcg';
+const GOOGLE_MAPS_APIKEY = 'AIzaSyDnG35z7wiaggXmYy_s6P3ouH-nfw0Iy2g';
 const { width } = Dimensions.get('window');
 
-const LATITUDE_DELTA = 0.009;
-const LONGITUDE_DELTA = 0.009;
-const LATITUDE = -15.988310;
-const LONGITUDE = -48.044807;
 
 export default class MapScreen extends Component {
 
   constructor(props) {
     super(props);
+    this.fetchDataFromApi = this.fetchDataFromApi.bind(this);
     this.state = {
       monitoring: [],
-      latitude: LATITUDE,
-      longitude: LONGITUDE,
+      origin: { latitude: -15.990410711590629, longitude: -48.04717183113099 },
+      destination: { latitude: -15.990369456730598, longitude: -48.04712891578675},
       routeCoordinates: [],
       distanceTravelled: 0,
       prevLatLng: {},
-      coordinate: new AnimatedRegion({
-       latitude: LATITUDE,
-       longitude: LONGITUDE
-      }),
+      
       inicial: {},
       final: {}
     };
   }
 
   componentDidMount() {
-    const { coordinate } = this.state;
-
-    this.watchID = navigator.geolocation.watchPosition(
-      position => {
-        const { routeCoordinates, distanceTravelled } = this.state;
-        const { latitude, longitude } = position.coords;
-
-        const newCoordinate = {
-          latitude,
-          longitude
-        };
-        console.log({ newCoordinate });
-
- 
-          if (this.marker) {
-            this.marker._component.animateMarkerToCoordinate(
-              newCoordinate,
-              500
-            );
-          }
-     
-        coordinate.timing(newCoordinate).start();
-
-        this.setState({
-          latitude,
-          longitude,
-          routeCoordinates: routeCoordinates.concat([newCoordinate]),
-          distanceTravelled:
-            distanceTravelled + this.calcDistance(newCoordinate),
-          prevLatLng: newCoordinate
-        });
-      },
-      error => console.log(error),
-      {
-        enableHighAccuracy: true,
-        timeout: 20000,
-        maximumAge: 1000,
-        distanceFilter: 10
-      }
-    );
 
     this.fetchDataFromApi();
-  
+
   };
 
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
   };
 
-  getMapRegion = () => ({
-    latitude: this.state.latitude,
-    longitude: this.state.longitude,
-    latitudeDelta: LATITUDE_DELTA,
-    longitudeDelta: LONGITUDE_DELTA
-  });
-
   calcDistance = newLatLng => {
     const { prevLatLng } = this.state;
     return haversine(prevLatLng, newLatLng) || 0;
   };
 
-      fetchDataFromApi = ()  => {
-        const url = "http://gustavo2795.pythonanywhere.com/monitoramentos/";
-    
-        axios.get(url)
-          .then(function(response){
-            //console.log(response.data); // ex.: { user: 'Your User'}
-            //console.log(response.status); // ex.: 200
-            this.state = {
-              monitoring: response.data,
-            }
+  fetchDataFromApi = () => {
+    const url = "http://gustavo2795.pythonanywhere.com/monitoramentos/";
 
-            const index = this.state.monitoring.length-1
+    axios.get(url)
+      .then((response) => {
+        //console.log(response.data); // ex.: { user: 'Your User'}
+        //console.log(response.status); // ex.: 200
+        this.setState({
+          monitoring: response.data[response.data.length - 1],
+          destination: {
+            latitude: Number.parseFloat(response.data[response.data.length - 1].latitudeFinal),
+            longitude: Number.parseFloat(response.data[response.data.length - 1].logitudeFinal)
+          }
+        });
 
-            /*this.state = {
-              inicial: {latitude: this.state.monitoring[index].latitudeInicial, 
-                        longitude: this.state.monitoring[index].logitudeInicial},
-              final: {latitude: this.state.monitoring[index].latitudeFinal, 
-                      longitude: this.state.monitoring[index].logitudeFinal}
-            }*/
+      });
+      console.log(this.state.destination);
+    setTimeout(() => {
+      this.fetchDataFromApi()
+    }, 30000)
+  };
 
-          }); 
-        
-      };
+  async requestLocationPermission() {
+    try {
 
-      async requestLocationPermission() {
-        try {
-    
-            const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-                {
-                    'title': 'App Location Permission',
-                    'message': 'O aplicativo CURB necessita que você ative ' +
-                        'o GPS.'
-                }
-            );
-    
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                console.log("You can use the location");
-                return true;
-    
-            } else {
-                console.log("location permission denied");
-                return false;
-            }
-    
-        } catch (err) {
-            console.warn(err)
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          'title': 'App Location Permission',
+          'message': 'O aplicativo CURB necessita que você ative ' +
+            'o GPS.'
         }
-    
+      );
+
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log("You can use the location");
+        return true;
+
+      } else {
+        console.log("location permission denied");
+        return false;
+      }
+
+    } catch (err) {
+      console.warn(err)
+    }
+
+  };
+
+  getLocation() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      let newOrigin = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
       };
-    
-      getLocation() {
-        navigator.geolocation.getCurrentPosition((position) => {
-            let newOrigin = {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-            };
-    
-            console.log('new origin');
-            console.log(newOrigin);
-    
-            this.setState({
-                origin: newOrigin
-            });
 
-        }, (err) => {
-            console.log('error');
-            console.log(err)
-    
-        }, {enableHighAccuracy: true, timeout: 2000, maximumAge: 1000})
-    
-      };
+      console.log('new origin');
+      console.log(newOrigin);
 
-      /*async componentDidMount() {
-        let isGranted = await this.requestLocationPermission();
+      this.setState({
+        origin: newOrigin
+      });
 
-        if (isGranted) {
-            this.getLocation();
-        }
+    }, (err) => {
+      console.log('error');
+      console.log(err)
 
+    }, { enableHighAccuracy: true, timeout: 2000, maximumAge: 1000 })
+
+  };
+
+  /*async componentDidMount() {
+    let isGranted = await this.requestLocationPermission();
+
+    if (isGranted) {
         this.getLocation();
-
-      }*/
-
-    handleButton = () => {
-        
     }
-    
-      handleGetGoogleMapDirections = () => {
-    
-        const data = {
-    
-            source: this.state.origin,
-            destination: this.state.destination,
-            params: [
-                {
-                  key: "travelmode",
-                  value: "driving"
-                }
-            ]
-            
-        };
-    
-        getDirections(data)
-    
-      };
 
-    render() {
+    this.getLocation();
 
-        return(
+  }*/
 
-          <View style={styles.container}>
+  handleButton = () => {
 
-            <MapView
-              ref={map => this.mapView = map}
-              style={styles.map}
-    
-              region={
-                this.getMapRegion()
-              }
-              showUserLocation
-              followUserLocation
-              loadingEnabled={true}
-              toolbarEnabled={true}
-              zoomControlEnabled={true}
-              
-            >
-            
-            <Polyline coordinates={this.state.routeCoordinates} strokeWidth={5} />
-    
-            </MapView>
+  }
 
-          </View>
+  handleGetGoogleMapDirections = () => {
 
-        );
+    const data = {
 
-    }
+      source: this.state.origin,
+      destination: this.state.destination,
+      params: [
+        {
+          key: "travelmode",
+          value: "driving"
+        }
+      ]
+
+    };
+
+    getDirections(data)
+
+  };
+
+  render() {
+
+    return (
+
+      <View style={styles.container}>
+
+        <MapView
+
+          ref={map => this.mapView = map}
+          style={styles.map}
+
+          region={{
+            latitude: (this.state.origin.latitude + this.state.destination.latitude) / 2,
+            longitude: (this.state.origin.longitude + this.state.destination.longitude) / 2,
+            latitudeDelta: Math.abs(this.state.origin.latitude - this.state.destination.latitude) + Math.abs(this.state.origin.latitude - this.state.destination.latitude) * .1,
+            longitudeDelta: Math.abs(this.state.origin.longitude - this.state.destination.longitude) + Math.abs(this.state.origin.longitude - this.state.destination.longitude) * .1,
+          }}
+
+          loadingEnabled={true}
+          toolbarEnabled={true}
+          zoomControlEnabled={true}
+
+        >
+
+          <MapView.Marker
+            coordinate={this.state.destination}
+          >
+            <MapView.Callout onPress={this.handleGetGoogleMapDirections}>
+              <Text>O CURB está aqui</Text>
+            </MapView.Callout>
+          </MapView.Marker>
+          <MapView.Marker
+            coordinate={this.state.origin}
+          >
+            <MapView.Callout>
+              <Text>Você está aqui</Text>
+            </MapView.Callout>
+          </MapView.Marker>
+          <MapViewDirections
+            origin={this.state.origin}
+            destination={this.state.destination}
+            apikey={GOOGLE_MAPS_APIKEY}
+          />
+
+        </MapView>
+
+      </View>
+
+    );
+
+  }
 
 }
 
 const styles = StyleSheet.create({
 
-    container: {
-  
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end',
-    
-      },
-    
-      map: {
-    
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-    
-      },
+  container: {
 
-      button: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
 
-        width: width - 100,
-        height: 40,
-        backgroundColor: '#FFF',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderWidth: 1,
-        borderColor: '#000',
-        borderRadius: 7,
-        marginBottom: 15,
-        marginHorizontal: 20,
+  },
 
-      },
+  map: {
 
-      buttonText: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
 
-        color: '#000',
-        fontWeight: 'bold',
+  },
 
-      },
+  button: {
 
-      inputContainer: {
+    width: width - 100,
+    height: 40,
+    backgroundColor: '#FFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#000',
+    borderRadius: 7,
+    marginBottom: 15,
+    marginHorizontal: 20,
 
-        width: '100%',
-        maxHeight: 200,
-  
-      },
+  },
 
-      input: {
+  buttonText: {
 
-        width: width - 40,
-        maxHeight: 200,
-        backgroundColor: '#FFF',
-        marginBottom: 15,
-        marginHorizontal: 20,
-  
-      },
+    color: '#000',
+    fontWeight: 'bold',
+
+  },
+
+  inputContainer: {
+
+    width: '100%',
+    maxHeight: 200,
+
+  },
+
+  input: {
+
+    width: width - 40,
+    maxHeight: 200,
+    backgroundColor: '#FFF',
+    marginBottom: 15,
+    marginHorizontal: 20,
+
+  },
 });
