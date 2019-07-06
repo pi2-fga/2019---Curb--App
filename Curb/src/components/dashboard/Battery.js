@@ -4,6 +4,7 @@ import axios from 'react-native-axios'
 import FusionCharts from "react-native-fusioncharts";
 
 export default class Battery extends Component {
+
 	constructor(props) {
 		super(props);
 			this.apiCaller = null;
@@ -46,76 +47,121 @@ export default class Battery extends Component {
 					dials: {
 						dial: [
 							{
-								value: ""
+								value: "0"
 							}
 						]
 					}
 				}
 			};
-			this.libraryPath = Platform.select({
-					android: require('../../../assets/fusioncharts/fusioncharts.html')
-			});
+		this.libraryPath = Platform.select({
+				android: require('../../../assets/fusioncharts/fusioncharts.html')
+		});
 	}
 
 	fetchDataFromApi = ()  => {
-		const url = "http://gustavo2795.pythonanywhere.com/monitoramentos/";
-		console.log(this.state)
-		axios.get(url)
-			.then((response) => {
-				this.setState({
-					monitoring: response.data,
-					dataSource: {
-						chart: {
-							caption: "Nível de Bateria do Curb",
-							lowerLimit: "0",
-							upperLimit: "100",
-							showValue: "1",
-							numberSuffix: "%",
-							theme: "ocean",
-							showToolTip: "0"
-						},
-						colorRange: {
-							color: [
-								{
-									minValue: "0",
-									maxValue: "50",
-									code: "#F2726F"
-								},
-								{
-									minValue: "50",
-									maxValue: "75",
-									code: "#FFC533"
-								},
-								{
-									minValue: "75",
-									maxValue: "100",
-									code: "#62B58F"
-								}
-							]
-						},
-						dials: {
-							dial: [
-								{
-									value: response.data[response.data.length-1].bateria
-								}
-							]
-						}
+
+		if(global.status_curb == 0) {
+
+			this.setState({
+				monitoring: 0,
+				dataSource: {
+					chart: {
+						caption: "O Curb está desligado",
+						lowerLimit: "0",
+						upperLimit: "100",
+						showValue: "1",
+						numberSuffix: "%",
+						theme: "ocean",
+						showToolTip: "0"
 					},
-				}, () => {
+					colorRange: {
+						color: [
+							{
+								minValue: "0",
+								maxValue: "50",
+								code: "#F2726F"
+							},
+							{
+								minValue: "50",
+								maxValue: "75",
+								code: "#FFC533"
+							},
+							{
+								minValue: "75",
+								maxValue: "100",
+								code: "#62B58F"
+							}
+						]
+					},
+					dials: {
+						dial: [
+							{
+								value: "0"
+							}
+						]
+					}
+				},
+			});
+		} else {
+
+			const url = "http://gustavo2795.pythonanywhere.com/monitoramentos/";
+			console.log(this.state)
+			axios.get(url)
+				.then((response) => {
+					this.setState({
+						monitoring: response.data,
+						dataSource: {
+							chart: {
+								caption: "Nível de Bateria do Curb",
+								lowerLimit: "0",
+								upperLimit: "100",
+								showValue: "1",
+								numberSuffix: "%",
+								theme: "ocean",
+								showToolTip: "0"
+							},
+							colorRange: {
+								color: [
+									{
+										minValue: "0",
+										maxValue: "50",
+										code: "#F2726F"
+									},
+									{
+										minValue: "50",
+										maxValue: "75",
+										code: "#FFC533"
+									},
+									{
+										minValue: "75",
+										maxValue: "100",
+										code: "#62B58F"
+									}
+								]
+							},
+							dials: {
+								dial: [
+									{
+										value: response.data[response.data.length-1].bateria
+									}
+								]
+							}
+						},
+					}, () => {
 					console.log(this.state)
 				});
-				
 			}); 
-			setTimeout(() =>{
-				this.fetchDataFromApi()
-			}, 30000)
+		} 
+		setTimeout(() =>{
+			this.fetchDataFromApi()
+		}, 5000)
 	};
 	
 	componentDidMount(){
+
 		this.fetchDataFromApi();
 	}
-	
-    
+	 
     render() {
     	return (
         	<View style={styles.container}>
