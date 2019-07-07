@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'react-native-axios';
-import PropTypes from 'prop-types';
 
-let status_curb = 0; 
+let valor1 = 0;
+let valor2 = 0;
 
 export default class Power extends Component {
 
@@ -16,6 +16,7 @@ export default class Power extends Component {
         super(props)
         this._onStateChange = this._onStateChange.bind(this);
         global.status_curb = 0;
+
     }
 
     _onStateChange(newState){
@@ -28,10 +29,14 @@ export default class Power extends Component {
         this.setState({toggle:newState})
         this.props.onStateChange && this.props.onStateChange(newState)
         global.status_curb = 1;
+        valor1 = 42;
+        valor2 = 0;
         axios
             .post(
                 'https://www.jsonstore.io/6ab2d2053ab011dea0384adc74c574ac48fd77f06bcd69b8f7e321fc902fcca8', 
-                { status_carrinho: '' + global.status_curb})
+                { status_carrinho: '' + global.status_curb, 
+                  valor1: valor1, 
+                  valor2: valor2 })
             .then(function(response){
                 console.log('Curb ligado com sucesso!');
         }); 
