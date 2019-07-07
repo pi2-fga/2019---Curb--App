@@ -13,10 +13,9 @@ export default class Power extends Component {
     }
 
     constructor(props) {
-        super(props)
+        super(props);
         this._onStateChange = this._onStateChange.bind(this);
         global.status_curb = 0;
-
     }
 
     _onStateChange(newState){
