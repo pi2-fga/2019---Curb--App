@@ -240,14 +240,14 @@ export default class Bottons extends React.Component {
                     onPress={()=>this._onPressCompressor1(textValueMisturador1)}>
                     <Icon name='power-off' color={buttonBgCompressor1} size={100} ></Icon>
                     <Text style={{color:textColorCompressor1, textAlign:'center'}}>
-                    Compressor: {textValueCompressor1}</Text>
+                    Compressor nº 1: {textValueCompressor1}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity activeOpacity={.3} 
                     onPress={()=>this._onPressCompressor2(textValueCompressor2)}>
                     <Icon name='power-off' color={buttonBgCompressor2} size={100} ></Icon>
                     <Text style={{color:textColorCompressor2, textAlign:'center'}}>
-                    Compressor: {textValueCompressor2}</Text>
+                    Compressor nº 2: {textValueCompressor2}</Text>
                 </TouchableOpacity>
             </View>
         );
