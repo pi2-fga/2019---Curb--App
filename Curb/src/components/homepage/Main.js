@@ -13,7 +13,7 @@ export default class Main extends Component {
 			<Router>
 				<Scene key="root">
 					<Scene key="loginScreen"
-						component={Dashboard}
+						component={LoginScreen}
 						animation='fade'
 						hideNavBar={true}
 						initial={true}
