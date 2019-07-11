@@ -6,7 +6,6 @@ export default class SignupSection extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>ESQUECEU A SENHA?</Text>
       </View>
     );
   }

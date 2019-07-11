@@ -9,6 +9,7 @@ const DEVICE_WIDTH = Dimensions.get('window').width;
 const MARGIN = 40;
 
 export default class ButtonSubmit extends Component {
+  
   constructor() {
     super();
 
@@ -36,7 +37,7 @@ export default class ButtonSubmit extends Component {
     }, 2000);
 
     setTimeout(() => {
-      Actions.new_curb();
+      Actions.dashboard();
       this.setState({isLoading: false});
       this.buttonAnimated.setValue(0);
       this.growAnimated.setValue(0);

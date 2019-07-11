@@ -5,8 +5,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Battery from './Battery';
 import Tinta from './Tinta';
 import Path from './Path';
-import UserProfile from './UserProfile';
 import Power from './Power';
+import Bottons from './Bottons';
 
 export default class DashboardHomePage extends Component {
     
@@ -58,15 +58,15 @@ const DashBoardTabNavigator = createBottomTabNavigator({
             ),
         }
     },
-    UserProfile: {
-        screen: UserProfile,
+    Botão: {
+        screen: Bottons,
         navigationOptions: {
-            tabBarLabel:'Usuário',
+            tabBarLabel:'Botões',
             tabBarIcon: ({tintColor}) => (
-                <Icon name='user' color={tintColor} size={24}></Icon>
-            )
+                <Icon name='dashboard' color={tintColor} size={24}></Icon>
+            ),
         }
-    }, 
+    }
 },{
     navigationOptions: {
         tabBarVisible: true
