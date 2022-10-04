@@ -11,7 +11,7 @@
     "@fortawesome/react-native-fontawesome": "^0.1.0",
     "@react-native-community/async-storage": "^1.2.0",
     "@react-navigation/native": "^3.5.0",
-    "expo": "^32.0.0",
+    "expo": "^46.0.14",
     "fusioncharts": "^3.13.4",
     "i18n-js": "^3.1.0",
     "react": "16.5.0",
